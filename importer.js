@@ -30,8 +30,10 @@ class DataImporter {
     const modalHTML = `
       <div id="importModal" class="modal" style="display: none;">
         <div class="modal-content import-modal">
-          <span class="close" onclick="document.getElementById('importModal').style.display='none'">&times;</span>
-          <h2>Import Data</h2>
+          <div class="modal-header">
+            <h2>Import Data</h2>
+            <button class="close-btn" id="importModalClose">&times;</button>
+          </div>
           
           <div class="import-section">
             <label for="importFile">Select File (CSV or Excel):</label>
@@ -46,7 +48,7 @@ class DataImporter {
             <div id="importMapping"></div>
             <div class="modal-actions">
               <button id="importConfirm" class="btn btn-primary">Import Data</button>
-              <button onclick="document.getElementById('importModal').style.display='none'" class="btn">Cancel</button>
+              <button id="importCancel" class="btn">Cancel</button>
             </div>
           </div>
         </div>
@@ -58,6 +60,15 @@ class DataImporter {
     // Attach event listeners
     document.getElementById('importFile').addEventListener('change', (e) => this.handleFileSelect(e));
     document.getElementById('importConfirm').addEventListener('click', () => this.confirmImport());
+    document.getElementById('importModalClose').addEventListener('click', () => this.closeModal());
+    document.getElementById('importCancel').addEventListener('click', () => this.closeModal());
+  }
+
+  /**
+   * Close import modal
+   */
+  closeModal() {
+    document.getElementById('importModal').style.display = 'none';
   }
 
   /**

@@ -156,6 +156,18 @@ body {
   overflow-y: auto;
 }
 
+.import-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.import-modal .modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
 .import-section {
   margin-bottom: 20px;
 }
