@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Offline Data Manager</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #fafafa;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input,
+        button {
+            margin: 5px;
+            padding: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        #search {
+            margin-top: 10px;
+            width: 300px;
+            padding: 6px;
+        }
+
+        .actions button {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Offline Data Manager</h2>
+
+    <form id="dataForm">
+        <input type="hidden" id="recordId">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="number" id="age" placeholder="Age">
+        <button type="submit" id="addBtn">Add</button>
+        <button type="button" id="updateBtn" style="display:none;">Update</button>
+    </form>
+
+    <input type="text" id="search" placeholder="Search by name or email...">
+    <button id="exportBtn">Export to Excel</button>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="renderer.js"></script>
+</body>
+
+</html>

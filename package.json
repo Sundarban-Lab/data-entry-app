@@ -1,10 +1,12 @@
 {
   "name": "data-entry-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "create-repo.js",
+  "description": "An offline data entry and data collection application",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "echo \"To package the app, install electron-builder: npm install --save-dev electron-builder\""
   },
   "repository": {
     "type": "git",
@@ -12,5 +14,10 @@
   },
   "keywords": ["Offline Data Entry", "Data Collection", "Data Management"],
   "author": "Anik Chowdhury",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^39.1.0",
+    "sql.js": "^1.13.0",
+    "exceljs": "^4.4.0"
+  }
 }
