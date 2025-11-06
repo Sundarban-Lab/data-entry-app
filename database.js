@@ -1,62 +1,75 @@
-const sqlite3 = require('sqlite3').verbose();
+const fs = require('fs');
+const initSqlJs = require('sql.js');
 const xlsx = require('xlsx');
+
+const DB_FILE = 'data.db';
 
 class Database {
   constructor() {
-    this.db = new sqlite3.Database('./data.db');
-    this.db.run(
-      'CREATE TABLE IF NOT EXISTS records (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, age INTEGER)'
-    );
+    this.ready = this._init();
   }
 
-  insertData({ name, email, age }) {
-    return new Promise((resolve, reject) => {
-      this.db.run(
-        'INSERT INTO records (name, email, age) VALUES (?, ?, ?)',
-        [name, email, age],
-        (err) => (err ? reject(err) : resolve(true))
-      );
-    });
+  async _init() {
+    const SQL = await initSqlJs();
+    if (fs.existsSync(DB_FILE)) {
+      const fileBuffer = fs.readFileSync(DB_FILE);
+      this.db = new SQL.Database(fileBuffer);
+    } else {
+      this.db = new SQL.Database();
+      this.db.run('CREATE TABLE records (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, age INTEGER)');
+      this._persist();
+    }
   }
 
-  getAllData() {
-    return new Promise((resolve, reject) => {
-      this.db.all('SELECT * FROM records ORDER BY id DESC', (err, rows) => {
-        if (err) reject(err);
-        else resolve(rows);
-      });
-    });
+  _persist() {
+    const data = this.db.export();
+    const buffer = Buffer.from(data);
+    fs.writeFileSync(DB_FILE, buffer);
   }
 
-  updateData({ id, name, email, age }) {
-    return new Promise((resolve, reject) => {
-      this.db.run(
-        'UPDATE records SET name=?, email=?, age=? WHERE id=?',
-        [name, email, age, id],
-        (err) => (err ? reject(err) : resolve(true))
-      );
-    });
+  async insertData({ name, email, age }) {
+    await this.ready;
+    const stmt = this.db.prepare('INSERT INTO records (name, email, age) VALUES (?, ?, ?)');
+    stmt.run([name, email, parseInt(age, 10) || null]);
+    stmt.free();
+    this._persist();
+    return true;
   }
 
-  deleteData(id) {
-    return new Promise((resolve, reject) => {
-      this.db.run('DELETE FROM records WHERE id=?', [id], (err) =>
-        err ? reject(err) : resolve(true)
-      );
-    });
+  async getAllData() {
+    await this.ready;
+    const stmt = this.db.prepare('SELECT * FROM records ORDER BY id DESC');
+    const rows = [];
+    while (stmt.step()) rows.push(stmt.getAsObject());
+    stmt.free();
+    return rows;
   }
 
-  exportToExcel() {
-    return new Promise((resolve, reject) => {
-      this.db.all('SELECT * FROM records', (err, rows) => {
-        if (err) return reject(err);
-        const worksheet = xlsx.utils.json_to_sheet(rows);
-        const workbook = xlsx.utils.book_new();
-        xlsx.utils.book_append_sheet(workbook, worksheet, 'Data');
-        xlsx.writeFile(workbook, 'records.xlsx');
-        resolve('records.xlsx');
-      });
-    });
+  async updateData({ id, name, email, age }) {
+    await this.ready;
+    const stmt = this.db.prepare('UPDATE records SET name=?, email=?, age=? WHERE id=?');
+    stmt.run([name, email, parseInt(age, 10) || null, parseInt(id, 10)]);
+    stmt.free();
+    this._persist();
+    return true;
+  }
+
+  async deleteData(id) {
+    await this.ready;
+    const stmt = this.db.prepare('DELETE FROM records WHERE id=?');
+    stmt.run([parseInt(id, 10)]);
+    stmt.free();
+    this._persist();
+    return true;
+  }
+
+  async exportToExcel() {
+    const rows = await this.getAllData();
+    const worksheet = xlsx.utils.json_to_sheet(rows);
+    const workbook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(workbook, worksheet, 'Data');
+    xlsx.writeFile(workbook, 'records.xlsx');
+    return 'records.xlsx';
   }
 }
 

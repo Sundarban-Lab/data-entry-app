@@ -2,6 +2,13 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const Database = require('./database');
 
+// Enable hot reload in development
+try {
+  require('electron-reload')(__dirname, {
+    electron: require(`${__dirname}/node_modules/electron`)
+  });
+} catch (_) {}
+
 let db;
 
 function createWindow() {
@@ -9,7 +16,6 @@ function createWindow() {
     width: 1000,
     height: 700,
     webPreferences: {
-      preload: path.join(__dirname, 'renderer.js'),
       nodeIntegration: true,
       contextIsolation: false
     }
