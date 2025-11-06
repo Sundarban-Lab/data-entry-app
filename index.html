@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';" />
+    <title>Data Entry App</title>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <header class="app-header">
+        <h1>Data Entry App</h1>
+    </header>
+
+    <main class="container">
+        <section class="panel">
+            <h2>New / Edit Record</h2>
+            <form id="dataForm" class="form" autocomplete="off">
+                <input type="hidden" id="recordId" />
+
+                <div class="form-row">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" placeholder="Enter full name" required />
+                </div>
+
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" placeholder="name@example.com" required />
+                </div>
+
+                <div class="form-row">
+                    <label for="age">Age</label>
+                    <input id="age" name="age" type="number" inputmode="numeric" min="0" max="120"
+                        placeholder="e.g., 30" />
+                </div>
+
+                <div class="actions">
+                    <button id="addBtn" type="submit" class="btn primary">Add</button>
+                    <button id="updateBtn" type="button" class="btn" style="display:none">Update</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel">
+            <div class="toolbar">
+                <div class="search">
+                    <input id="search" type="search" placeholder="Search by name or email" aria-label="Search" />
+                </div>
+                <div class="spacer"></div>
+                <button id="exportBtn" class="btn">Export to Excel</button>
+            </div>
+
+            <div class="table-wrap">
+                <table id="dataTable" class="table" role="grid">
+                    <thead>
+                        <tr>
+                            <th style="width:80px">ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th style="width:100px">Age</th>
+                            <th style="width:140px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows rendered by renderer.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <small>Data persists locally in data.db; export updates records.xlsx automatically.</small>
+    </footer>
+
+    <script defer src="./renderer.js"></script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Data Entry Manager</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #fafafa;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input,
+        button {
+            margin: 5px;
+            padding: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        #search {
+            margin-top: 10px;
+            width: 300px;
+            padding: 6px;
+        }
+
+        .actions button {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Data Entry Manager</h2>
+
+    <form id="dataForm">
+        <input type="hidden" id="recordId">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="number" id="age" placeholder="Age">
+        <button type="submit" id="addBtn">Add</button>
+        <button type="button" id="updateBtn" style="display:none;">Update</button>
+    </form>
+
+    <input type="text" id="search" placeholder="Search by name or email...">
+    <button id="exportBtn">Export to Excel</button>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="renderer.js"></script>
+</body>
+
+</html>
