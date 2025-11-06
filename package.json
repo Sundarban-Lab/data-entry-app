@@ -1,16 +1,51 @@
 {
   "name": "data-entry-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "create-repo.js",
+  "description": "An offline data entry and data collection application",
+  "main": "main.js",
   "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "build:win": "electron-builder build --win --publish never",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.sundarbanlab.dataentryapp",
+    "productName": "Data Entry App",
+    "asar": false,
+    "files": [
+      "**/*",
+      "!release/**"
+    ],
+    "directories": {
+      "output": "release3"
+    },
+    "asarUnpack": [
+      "node_modules/sql.js/dist/sql-wasm.wasm"
+    ],
+    "win": {
+      "target": ["nsis"]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "deleteAppDataOnUninstall": true
+    }
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Sundarban-Lab/data-entry-app.git"
   },
-  "keywords": ["Offline Data Entry", "Data Collection", "Data Management"],
+  "keywords": ["Offline/Online Data Entry", "Data Collection", "Data Management"],
   "author": "Anik Chowdhury",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "sql.js": "^1.9.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "electron": "^25.3.0",
+    "electron-builder": "^24.13.3"
+  }
 }
