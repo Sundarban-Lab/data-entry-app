@@ -12,6 +12,9 @@ contextBridge.exposeInMainWorld('api', {
     console.log('openExternal called with url:', url);
     // Call main process to open external link
     return ipcRenderer.invoke('open-external', url);
+  },
+  onMenuAction: (callback) => {
+    ipcRenderer.on('menu-action', (event, action) => callback(action));
   }
 });
 

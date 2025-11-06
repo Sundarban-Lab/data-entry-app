@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, Menu } = require('electron');
 const path = require('path');
 const Database = require('./database');
 
@@ -6,9 +6,10 @@ const Database = require('./database');
 // (Hot reload removed for packaging)
 
 let db;
+let mainWindow;
 
 function createWindow() {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1000,
     height: 700,
     webPreferences: {
@@ -19,10 +20,193 @@ function createWindow() {
     }
   });
 
-  win.loadFile('index.html');
+  mainWindow.loadFile('index.html');
+  
+  // Create application menu
+  createMenu();
   
   // DevTools removed for production builds
-  // Uncomment for debugging: win.webContents.openDevTools();
+  // Uncomment for debugging: mainWindow.webContents.openDevTools();
+}
+
+function createMenu() {
+  const isMac = process.platform === 'darwin';
+  
+  const template = [
+    // App Menu (Mac only)
+    ...(isMac ? [{
+      label: app.name,
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideOthers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' }
+      ]
+    }] : []),
+    
+    // File Menu
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'New Record',
+          accelerator: 'CmdOrCtrl+N',
+          click: () => mainWindow.webContents.send('menu-action', 'new-record')
+        },
+        {
+          label: 'Save Record',
+          accelerator: 'CmdOrCtrl+S',
+          click: () => mainWindow.webContents.send('menu-action', 'save-record')
+        },
+        { type: 'separator' },
+        {
+          label: 'Import Data',
+          accelerator: 'CmdOrCtrl+I',
+          click: () => mainWindow.webContents.send('menu-action', 'import-data')
+        },
+        {
+          label: 'Export to Excel',
+          accelerator: 'CmdOrCtrl+E',
+          click: () => mainWindow.webContents.send('menu-action', 'export-data')
+        },
+        { type: 'separator' },
+        isMac ? { role: 'close' } : { role: 'quit' }
+      ]
+    },
+    
+    // Edit Menu
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        ...(isMac ? [
+          { role: 'pasteAndMatchStyle' },
+          { role: 'delete' },
+          { role: 'selectAll' },
+          { type: 'separator' },
+          {
+            label: 'Speech',
+            submenu: [
+              { role: 'startSpeaking' },
+              { role: 'stopSpeaking' }
+            ]
+          }
+        ] : [
+          { role: 'delete' },
+          { type: 'separator' },
+          { role: 'selectAll' }
+        ]),
+        { type: 'separator' },
+        {
+          label: 'Find',
+          accelerator: 'CmdOrCtrl+F',
+          click: () => mainWindow.webContents.send('menu-action', 'find')
+        }
+      ]
+    },
+    
+    // View Menu
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forceReload' },
+        { role: 'toggleDevTools' },
+        { type: 'separator' },
+        { role: 'resetZoom' },
+        { role: 'zoomIn' },
+        { role: 'zoomOut' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
+        { type: 'separator' },
+        {
+          label: 'Customize Fields',
+          click: () => mainWindow.webContents.send('menu-action', 'customize-fields')
+        }
+      ]
+    },
+    
+    // Records Menu
+    {
+      label: 'Records',
+      submenu: [
+        {
+          label: 'Refresh List',
+          accelerator: 'F5',
+          click: () => mainWindow.webContents.send('menu-action', 'refresh-records')
+        },
+        {
+          label: 'Clear Form',
+          accelerator: 'Escape',
+          click: () => mainWindow.webContents.send('menu-action', 'clear-form')
+        },
+        { type: 'separator' },
+        {
+          label: 'View Statistics',
+          click: () => mainWindow.webContents.send('menu-action', 'show-stats')
+        }
+      ]
+    },
+    
+    // Window Menu
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'zoom' },
+        ...(isMac ? [
+          { type: 'separator' },
+          { role: 'front' },
+          { type: 'separator' },
+          { role: 'window' }
+        ] : [
+          { role: 'close' }
+        ])
+      ]
+    },
+    
+    // Help Menu
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Keyboard Shortcuts',
+          click: () => mainWindow.webContents.send('menu-action', 'show-shortcuts')
+        },
+        { type: 'separator' },
+        {
+          label: 'Documentation',
+          click: async () => {
+            await shell.openExternal('https://github.com/Sundarban-Lab/data-entry-app')
+          }
+        },
+        {
+          label: 'Report Issue',
+          click: async () => {
+            await shell.openExternal('https://github.com/Sundarban-Lab/data-entry-app/issues')
+          }
+        },
+        { type: 'separator' },
+        {
+          label: 'About',
+          click: () => mainWindow.webContents.send('menu-action', 'show-about')
+        }
+      ]
+    }
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 }
 
 app.whenReady().then(() => {
