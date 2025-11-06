@@ -20,6 +20,9 @@ function createWindow() {
   });
 
   win.loadFile('index.html');
+  
+  // Open DevTools for debugging
+  win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {

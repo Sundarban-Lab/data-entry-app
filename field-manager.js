@@ -45,6 +45,7 @@ class FieldManager {
   }
 
   init() {
+    console.log('FieldManager.init() called');
     this.setupTitleEditing();
     this.setupModal();
     this.renderForm();
@@ -53,6 +54,7 @@ class FieldManager {
     // Set initial title
     const titleEl = document.getElementById('appTitle');
     if (titleEl) titleEl.textContent = this.appTitle;
+    console.log('FieldManager init complete, fields rendered');
   }
 
   setupTitleEditing() {
@@ -234,6 +236,7 @@ class FieldManager {
 
   renderForm() {
     const container = document.getElementById('formFieldsContainer');
+    console.log('renderForm called, container:', container);
     if (!container) return;
 
     container.innerHTML = this.fields.map(field => {
@@ -316,12 +319,17 @@ class FieldManager {
 
 // Initialize field manager when DOM is ready
 let fieldManager;
+console.log('field-manager.js loaded, readyState:', document.readyState);
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded - initializing FieldManager');
     fieldManager = new FieldManager();
     window.fieldManager = fieldManager;
+    console.log('FieldManager initialized:', fieldManager);
   });
 } else {
+  console.log('DOM already ready - initializing FieldManager');
   fieldManager = new FieldManager();
   window.fieldManager = fieldManager;
+  console.log('FieldManager initialized:', fieldManager);
 }
