@@ -1,0 +1,16 @@
+{
+  "name": "data-entry-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "create-repo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sundarban-Lab/data-entry-app.git"
+  },
+  "keywords": ["Offline Data Entry", "Data Collection", "Data Management"],
+  "author": "Anik Chowdhury",
+  "license": "ISC"
+}
