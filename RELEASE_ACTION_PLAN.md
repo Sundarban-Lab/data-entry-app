@@ -80,11 +80,13 @@ Message template in `PROMOTION_GUIDE.md`. Suggest contacting:
 
 ### Quick message:
 ```
-Hey! Just launched v1.2.0 of my data entry app. 
+Hey [Name]! Just launched v1.2.0 of my data entry app. 
 Could you star it on GitHub? 
 🔗 https://github.com/Sundarban-Lab/data-entry-app
 Thanks! 🙏
 ```
+
+**Note**: Personalize this message! Mention how you know the person or why they might be interested in the project for better engagement.
 
 ## 📋 Complete Checklist
 

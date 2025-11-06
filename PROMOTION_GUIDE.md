@@ -141,21 +141,58 @@ Feedback welcome! What would you improve? 💭
 
 ### Ask Friends to Star
 
-**Personal Message Template:**
+**Personal Message Templates:**
 
+Customize based on your relationship with the recipient for better engagement!
+
+**For Developer Friends:**
 ```
 Hey [Name]! 👋
 
-I just released v1.2.0 of my open-source data entry app and would really appreciate your support!
+I just released v1.2.0 of my open-source data entry app (Electron + SQL.js) and would really appreciate your support!
 
 Could you give it a ⭐ on GitHub? It helps with visibility and means a lot to me.
 
 🔗 https://github.com/Sundarban-Lab/data-entry-app
 
-It's a free tool for managing data offline - might be useful for you too!
+Built with vanilla JS - might be interesting to check out the architecture!
 
 Thanks in advance! 🙏
 ```
+
+**For Non-Technical Friends:**
+```
+Hey [Name]! 👋
+
+I just launched version 1.2.0 of a project I've been working on - a free data management tool.
+
+If you have a minute, could you "star" it on GitHub to help with visibility? Here's the link:
+🔗 https://github.com/Sundarban-Lab/data-entry-app
+
+You don't need to download anything - just click the ⭐ Star button on that page.
+
+Really appreciate your support! 🙏
+```
+
+**For Community/Organization Contacts:**
+```
+Hi [Name]! 👋
+
+I wanted to share that I've just released v1.2.0 of my open-source Data Entry App - a free tool designed for organizations managing records offline (like church records, survey data, etc.).
+
+If you think it might be useful for [their organization], I'd love for you to check it out:
+🔗 https://github.com/Sundarban-Lab/data-entry-app
+
+Also, a GitHub star would really help with visibility! 
+
+Thanks for your support! 🙏
+```
+
+**Personalization Tips:**
+- Mention why you thought of them specifically
+- Reference a shared experience or conversation
+- Explain how it might benefit them or their network
+- Keep it brief but genuine
 
 ### Twitter/X Post (if applicable)
 
