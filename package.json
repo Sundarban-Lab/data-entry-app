@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "echo \"To package the app, install electron-builder: npm install --save-dev electron-builder\""
   },
   "repository": {
     "type": "git",
@@ -15,8 +16,8 @@
   "author": "Anik Chowdhury",
   "license": "ISC",
   "dependencies": {
-    "electron": "^25.3.0",
-    "sql.js": "^1.9.0",
-    "xlsx": "^0.18.5"
+    "electron": "^39.1.0",
+    "sql.js": "^1.13.0",
+    "exceljs": "^4.4.0"
   }
 }
