@@ -314,8 +314,14 @@ class FieldManager {
   }
 }
 
-// Initialize field manager
-const fieldManager = new FieldManager();
-
-// Make it globally accessible
-window.fieldManager = fieldManager;
+// Initialize field manager when DOM is ready
+let fieldManager;
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    fieldManager = new FieldManager();
+    window.fieldManager = fieldManager;
+  });
+} else {
+  fieldManager = new FieldManager();
+  window.fieldManager = fieldManager;
+}

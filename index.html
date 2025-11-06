@@ -1,95 +1,290 @@
 ﻿<!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data Entry Manager Developed by Anik Chowdhury</title>
-<link rel="stylesheet" href="./style.css">
-<style>
-.editable-header { cursor: pointer; position: relative; display: inline-block; padding: 4px 8px; border-radius: 4px; transition: background 0.2s; }
-.editable-header:hover { background: rgba(255,255,255,0.1); }
-.editable-header.editing { background: rgba(255,255,255,0.15); }
-.header-input { background: transparent; border: none; color: inherit; font: inherit; width: 100%; outline: none; }
-.settings-btn { position: absolute; top: 14px; right: 20px; background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: var(--text); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; }
-.settings-btn:hover { background: rgba(255,255,255,0.15); }
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
-.modal.active { display: flex; }
-.modal-content { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.modal-header h2 { margin: 0; font-size: 20px; }
-.close-btn { background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; padding: 0; width: 32px; height: 32px; line-height: 1; }
-.close-btn:hover { color: var(--text); }
-.field-list { display: flex; flex-direction: column; gap: 12px; }
-.field-item { display: flex; align-items: center; gap: 10px; padding: 12px; background: #0b1220; border: 1px solid var(--border); border-radius: 8px; }
-.field-item input { flex: 1; background: transparent; border: none; color: var(--text); padding: 6px; outline: none; }
-.field-item input:focus { background: rgba(255,255,255,0.05); border-radius: 4px; }
-.field-item select { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 6px; border-radius: 4px; }
-.field-item label { font-size: 12px; color: var(--muted); min-width: 80px; }
-.field-item .btn-small { padding: 4px 8px; font-size: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); border-radius: 4px; cursor: pointer; }
-.field-item .btn-small:hover { background: rgba(255,255,255,0.1); }
-.field-item .btn-danger { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; color: #ef4444; }
-.field-item .btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
-.add-field-btn { width: 100%; padding: 12px; margin-top: 12px; background: var(--primary); border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 14px; }
-.add-field-btn:hover { filter: brightness(1.1); }
-.drag-handle { cursor: move; color: var(--muted); font-size: 18px; padding: 0 4px; }
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Data Entry Manager | Developed by Anik Chowdhury</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        .app-header {
+            text-align: center;
+            position: relative;
+        }
+
+        .app-footer {
+            text-align: center;
+        }
+
+        .form-row input,
+        .form-row textarea,
+        .form-row select {
+            width: 100% !important;
+            box-sizing: border-box;
+        }
+
+        .editable-header {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .editable-header:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .editable-header.editing {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .header-input {
+            background: transparent;
+            border: none;
+            color: inherit;
+            font: inherit;
+            width: 100%;
+            outline: none;
+        }
+
+        .settings-btn {
+            position: absolute;
+            top: 14px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: var(--text);
+        }
+
+        .field-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .field-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #0b1220;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .field-item input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            padding: 6px;
+            outline: none;
+        }
+
+        .field-item input:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .field-item select {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .field-item label {
+            font-size: 12px;
+            color: var(--muted);
+            min-width: 80px;
+        }
+
+        .field-item .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .field-item .btn-small:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .field-item .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .field-item .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .add-field-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            background: var(--primary);
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .add-field-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        .drag-handle {
+            cursor: move;
+            color: var(--muted);
+            font-size: 18px;
+            padding: 0 4px;
+        }
+    </style>
 </head>
+
 <body>
-<header class="app-header">
-  <h1 class="editable-header" id="appTitle" contenteditable="false" title="Click to edit">Church Records Data Entry</h1>
-  <button class="settings-btn" id="settingsBtn">⚙️ Customize Fields</button>
-</header>
-<main class="container">
-<section class="panel">
-  <h2>New / Edit Record</h2>
-  <form id="dataForm" class="form" autocomplete="off">
-    <input type="hidden" id="recordId">
-    <div id="formFieldsContainer"></div>
-    <div class="actions">
-      <button id="addBtn" type="submit" class="btn primary">Add Record</button>
-      <button id="updateBtn" type="button" class="btn" style="display:none">Update</button>
-      <button id="cancelBtn" type="button" class="btn" style="display:none">Cancel</button>
+    <header class="app-header">
+        <h1 class="editable-header" id="appTitle" contenteditable="false" title="Click to edit">Data Entry Manager</h1>
+        <button class="settings-btn" id="settingsBtn">⚙️ Customize Fields</button>
+    </header>
+    <main class="container">
+        <section class="panel">
+            <h2>New / Edit Record</h2>
+            <form id="dataForm" class="form" autocomplete="off">
+                <input type="hidden" id="recordId">
+                <div id="formFieldsContainer"></div>
+                <div class="actions">
+                    <button id="addBtn" type="submit" class="btn primary">Add Record</button>
+                    <button id="updateBtn" type="button" class="btn" style="display:none">Update</button>
+                    <button id="cancelBtn" type="button" class="btn" style="display:none">Cancel</button>
+                </div>
+            </form>
+        </section>
+        <section class="panel">
+            <div class="toolbar">
+                <div class="search">
+                    <input id="search" type="search" placeholder="Search records">
+                </div>
+                <div class="spacer"></div>
+                <button id="exportBtn" class="btn">📊 Export to Excel</button>
+            </div>
+            <div class="table-wrap">
+                <table id="dataTable" class="table">
+                    <thead>
+                        <tr id="tableHeaderRow">
+                            <th style="width:60px">ID</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <footer class="app-footer">
+        <small>Records persist locally • Customize fields anytime • Developed by <a
+                href="https://www.linkedin.com/in/anikchowdhurybd/" target="_blank"
+                style="color: var(--primary); text-decoration: none;">Anik Chowdhury</a></small>
+    </footer>
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Customize Fields</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="field-list" id="fieldList"></div>
+            <button class="add-field-btn" id="addFieldBtn">+ Add New Field</button>
+            <div style="margin-top: 20px; display: flex; gap: 12px;">
+                <button class="btn primary" id="saveFieldsBtn" style="flex:1">Save Changes</button>
+                <button class="btn" id="resetFieldsBtn">Reset to Default</button>
+            </div>
+        </div>
     </div>
-  </form>
-</section>
-<section class="panel">
-  <div class="toolbar">
-    <div class="search">
-      <input id="search" type="search" placeholder="Search records">
-    </div>
-    <div class="spacer"></div>
-    <button id="exportBtn" class="btn">📊 Export to Excel</button>
-  </div>
-  <div class="table-wrap">
-    <table id="dataTable" class="table">
-      <thead>
-        <tr id="tableHeaderRow">
-          <th style="width:60px">ID</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</section>
-</main>
-<footer class="app-footer">
-  <small>Records persist locally • Customize fields anytime</small>
-</footer>
-<div class="modal" id="settingsModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Customize Fields</h2>
-      <button class="close-btn" id="closeModal">&times;</button>
-    </div>
-    <div class="field-list" id="fieldList"></div>
-    <button class="add-field-btn" id="addFieldBtn">+ Add New Field</button>
-    <div style="margin-top: 20px; display: flex; gap: 12px;">
-      <button class="btn primary" id="saveFieldsBtn" style="flex:1">Save Changes</button>
-      <button class="btn" id="resetFieldsBtn">Reset to Default</button>
-    </div>
-  </div>
-</div>
-<script defer src="./renderer.js"></script>
-<script defer src="./field-manager.js"></script>
+    <script defer src="./renderer.js"></script>
+    <script defer src="./field-manager.js"></script>
+    <script>
+        // Handle external links in Electron
+        document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A' && e.target.href && e.target.href.startsWith('http')) {
+                    e.preventDefault();
+                    window.api.openExternal(e.target.href);
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>
