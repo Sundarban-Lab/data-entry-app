@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
 const Database = require('./database');
 
@@ -20,6 +20,9 @@ function createWindow() {
   });
 
   win.loadFile('index.html');
+  
+  // Open DevTools for debugging
+  win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
@@ -54,6 +57,19 @@ ipcMain.handle('delete-data', async (event, id) => {
 
 ipcMain.handle('export-excel', async () => {
   return await db.exportToExcel();
+});
+
+// Secure external link opener (renderer -> preload -> main)
+ipcMain.handle('open-external', async (event, url) => {
+  if (typeof url === 'string' && /^https?:\/\//i.test(url)) {
+    try {
+      await shell.openExternal(url);
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    }
+  }
+  return { ok: false, error: 'Invalid URL' };
 });
 
 app.on('window-all-closed', () => {

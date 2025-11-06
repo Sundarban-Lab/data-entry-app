@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - copilot/**
+      - clean-build
 
 jobs:
   build-windows:

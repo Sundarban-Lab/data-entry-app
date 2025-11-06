@@ -1,6 +1,6 @@
 {
   "name": "data-entry-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An offline data entry and data collection application",
   "main": "main.js",
   "scripts": {
@@ -24,7 +24,9 @@
       "node_modules/sql.js/dist/sql-wasm.wasm"
     ],
     "win": {
-      "target": ["nsis"]
+      "target": [
+        "nsis"
+      ]
     },
     "nsis": {
       "oneClick": true,
@@ -37,7 +39,11 @@
     "type": "git",
     "url": "https://github.com/Sundarban-Lab/data-entry-app.git"
   },
-  "keywords": ["Offline/Online Data Entry", "Data Collection", "Data Management"],
+  "keywords": [
+    "Offline/Online Data Entry",
+    "Data Collection",
+    "Data Management"
+  ],
   "author": "Anik Chowdhury",
   "license": "MIT",
   "dependencies": {

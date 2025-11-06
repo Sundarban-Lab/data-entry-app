@@ -1,98 +1,135 @@
-// Use APIs exposed by preload (contextBridge)
-
-const form = document.getElementById('dataForm');
-const addBtn = document.getElementById('addBtn');
-const updateBtn = document.getElementById('updateBtn');
-const tableBody = document.querySelector('#dataTable tbody');
-const exportBtn = document.getElementById('exportBtn');
-const searchInput = document.getElementById('search');
-
+// Dynamic Church Records Renderer - Works with field-manager.js
+const form = document.getElementById("dataForm");
+const addBtn = document.getElementById("addBtn");
+const updateBtn = document.getElementById("updateBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const tableBody = document.querySelector("#dataTable tbody");
+const exportBtn = document.getElementById("exportBtn");
+const searchInput = document.getElementById("search");
 let allRecords = [];
 
-// Load data
+// Wait for field manager to initialize
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    if (window.fieldManager) {
+      loadData();
+    }
+  }, 100);
+});
+
 async function loadData() {
   allRecords = await window.api.getData();
   renderTable(allRecords);
 }
 
-// Render table
+// Make loadData globally accessible for field manager
+window.loadData = loadData;
+
 function renderTable(records) {
-  tableBody.innerHTML = '';
-  records.forEach((row) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${row.id}</td>
-      <td>${row.name}</td>
-      <td>${row.email}</td>
-      <td>${row.age}</td>
-      <td class="actions">
-        <button onclick="editRecord(${row.id})">✏️ Edit</button>
-        <button onclick="deleteRecord(${row.id})">🗑️ Delete</button>
-      </td>`;
-    tableBody.appendChild(tr);
+  tableBody.innerHTML = "";
+  
+  if (records.length === 0) {
+    const colspan = window.fieldManager ? window.fieldManager.fields.slice(0, 5).length + 2 : 7;
+    tableBody.innerHTML = `<tr><td colspan="${colspan}" style="text-align:center">No records found</td></tr>`;
+    return;
+  }
+  
+  records.forEach(row => {
+    if (window.fieldManager) {
+      tableBody.innerHTML += window.fieldManager.renderTableRow(row);
+    }
   });
 }
 
-// Add record
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const record = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    age: document.getElementById('age').value
-  };
-  allRecords = await window.api.saveData(record);
-  renderTable(allRecords);
-  form.reset();
-});
-
-// Edit record
-window.editRecord = (id) => {
-  const record = allRecords.find((r) => r.id === id);
-  document.getElementById('recordId').value = record.id;
-  document.getElementById('name').value = record.name;
-  document.getElementById('email').value = record.email;
-  document.getElementById('age').value = record.age;
-  addBtn.style.display = 'none';
-  updateBtn.style.display = 'inline';
-};
-
-// Update record
-updateBtn.addEventListener('click', async () => {
-  const record = {
-    id: document.getElementById('recordId').value,
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    age: document.getElementById('age').value
-  };
-  allRecords = await window.api.updateData(record);
-  renderTable(allRecords);
-  form.reset();
-  addBtn.style.display = 'inline';
-  updateBtn.style.display = 'none';
-});
-
-// Delete record
-window.deleteRecord = async (id) => {
-  if (confirm('Are you sure you want to delete this record?')) {
-  allRecords = await window.api.deleteData(id);
-    renderTable(allRecords);
+function getFormData() {
+  if (window.fieldManager) {
+    return {
+      id: document.getElementById("recordId").value,
+      ...window.fieldManager.getFormData()
+    };
   }
+  return {};
+}
+
+function populateForm(record) {
+  document.getElementById("recordId").value = record.id;
+  if (window.fieldManager) {
+    window.fieldManager.populateForm(record);
+  }
+}
+
+function clearForm() {
+  document.getElementById("recordId").value = "";
+  if (window.fieldManager) {
+    window.fieldManager.clearForm();
+  }
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const rec = getFormData();
+  delete rec.id;
+  
+  allRecords = await window.api.saveData(rec);
+  renderTable(allRecords);
+  clearForm();
+});
+
+window.editRecord = (id) => {
+  const record = allRecords.find(r => r.id === id);
+  if (!record) return;
+  
+  populateForm(record);
+  addBtn.style.display = "none";
+  updateBtn.style.display = "inline";
+  cancelBtn.style.display = "inline";
+  form.scrollIntoView({ behavior: "smooth" });
 };
 
-// Search filter
-searchInput.addEventListener('input', () => {
-  const q = searchInput.value.toLowerCase();
-  const filtered = allRecords.filter(
-    (r) => r.name.toLowerCase().includes(q) || r.email.toLowerCase().includes(q)
-  );
+updateBtn.addEventListener("click", async () => {
+  const rec = getFormData();
+  if (!rec.id) return;
+  
+  allRecords = await window.api.updateData(rec);
+  renderTable(allRecords);
+  clearForm();
+  
+  addBtn.style.display = "inline";
+  updateBtn.style.display = "none";
+  cancelBtn.style.display = "none";
+});
+
+cancelBtn.addEventListener("click", () => {
+  clearForm();
+  addBtn.style.display = "inline";
+  updateBtn.style.display = "none";
+  cancelBtn.style.display = "none";
+});
+
+window.deleteRecord = async (id) => {
+  if (!confirm("Delete this record?")) return;
+  
+  allRecords = await window.api.deleteData(id);
+  renderTable(allRecords);
+};
+
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase();
+  
+  const filtered = allRecords.filter(record => {
+    if (!window.fieldManager) return false;
+    
+    // Search across all fields
+    return window.fieldManager.fields.some(field => {
+      const value = record[field.id];
+      return value && value.toString().toLowerCase().includes(query);
+    });
+  });
+  
   renderTable(filtered);
 });
 
-// Export manually
-exportBtn.addEventListener('click', async () => {
+exportBtn.addEventListener("click", async () => {
   await window.api.exportExcel();
-  alert('Excel file automatically updated: records.xlsx');
+  alert("Exported to records.xlsx");
 });
-
-loadData();
