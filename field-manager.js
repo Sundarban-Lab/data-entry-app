@@ -10,12 +10,12 @@ const DEFAULT_FIELDS = [
   { id: 'mother_name', label: 'Mother Name', type: 'text', required: false, placeholder: 'Mother\'s full name' },
   { id: 'relation', label: 'Relation', type: 'text', required: false, placeholder: 'Relationship' },
   { id: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Individual\'s name' },
-  { id: 'birth', label: 'Birth', type: 'text', required: false, placeholder: 'Birth date' },
-  { id: 'bapt', label: 'BAPT', type: 'text', required: false, placeholder: 'Baptism date' },
-  { id: 'conf', label: 'CONF', type: 'text', required: false, placeholder: 'Confirmation date' },
-  { id: 'first_com', label: '1 COM', type: 'text', required: false, placeholder: 'First Communion' },
-  { id: 'marriage', label: 'Marriage', type: 'text', required: false, placeholder: 'Marriage date' },
-  { id: 'death', label: 'Death', type: 'text', required: false, placeholder: 'Death date' },
+  { id: 'birth', label: 'Birth', type: 'text', required: false, placeholder: 'YYYY-MM-DD', validation: 'date' },
+  { id: 'bapt', label: 'BAPT', type: 'text', required: false, placeholder: 'YYYY-MM-DD', validation: 'date' },
+  { id: 'conf', label: 'CONF', type: 'text', required: false, placeholder: 'YYYY-MM-DD', validation: 'date' },
+  { id: 'first_com', label: '1 COM', type: 'text', required: false, placeholder: 'YYYY-MM-DD', validation: 'date' },
+  { id: 'marriage', label: 'Marriage', type: 'text', required: false, placeholder: 'YYYY-MM-DD', validation: 'date' },
+  { id: 'death', label: 'Death', type: 'text', required: false, placeholder: 'YYYY-MM-DD', validation: 'date' },
   { id: 'note', label: 'Note', type: 'textarea', required: false, placeholder: 'Additional notes' }
 ];
 

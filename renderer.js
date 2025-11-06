@@ -5,6 +5,7 @@ const updateBtn = document.getElementById("updateBtn");
 const cancelBtn = document.getElementById("cancelBtn");
 const tableBody = document.querySelector("#dataTable tbody");
 const exportBtn = document.getElementById("exportBtn");
+const importBtn = document.getElementById("importBtn");
 const searchInput = document.getElementById("search");
 let allRecords = [];
 
@@ -13,6 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     if (window.fieldManager) {
       loadData();
+      setupValidation();
     }
   }, 100);
 });
@@ -67,12 +69,26 @@ function clearForm() {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  
+  // Validate form before submission
+  if (window.validator && window.fieldManager) {
+    const isValid = window.validator.validateForm(window.fieldManager.fields);
+    if (!isValid) {
+      window.keyboardShortcuts?.showNotification('❌ Please fix validation errors');
+      return;
+    }
+  }
+  
   const rec = getFormData();
   delete rec.id;
   
   allRecords = await window.api.saveData(rec);
   renderTable(allRecords);
   clearForm();
+  
+  if (window.validator) {
+    window.validator.clearValidation();
+  }
 });
 
 window.editRecord = (id) => {
@@ -87,12 +103,25 @@ window.editRecord = (id) => {
 };
 
 updateBtn.addEventListener("click", async () => {
+  // Validate form before update
+  if (window.validator && window.fieldManager) {
+    const isValid = window.validator.validateForm(window.fieldManager.fields);
+    if (!isValid) {
+      window.keyboardShortcuts?.showNotification('❌ Please fix validation errors');
+      return;
+    }
+  }
+  
   const rec = getFormData();
   if (!rec.id) return;
   
   allRecords = await window.api.updateData(rec);
   renderTable(allRecords);
   clearForm();
+  
+  if (window.validator) {
+    window.validator.clearValidation();
+  }
   
   addBtn.style.display = "inline";
   updateBtn.style.display = "none";
@@ -101,6 +130,9 @@ updateBtn.addEventListener("click", async () => {
 
 cancelBtn.addEventListener("click", () => {
   clearForm();
+  if (window.validator) {
+    window.validator.clearValidation();
+  }
   addBtn.style.display = "inline";
   updateBtn.style.display = "none";
   cancelBtn.style.display = "none";
@@ -133,3 +165,31 @@ exportBtn.addEventListener("click", async () => {
   await window.api.exportExcel();
   alert("Exported to records.xlsx");
 });
+
+importBtn.addEventListener("click", () => {
+  if (window.dataImporter) {
+    window.dataImporter.showImportDialog();
+  }
+});
+
+// Setup validation for dynamic fields
+function setupValidation() {
+  if (!window.validator || !window.fieldManager) return;
+  
+  window.fieldManager.fields.forEach(field => {
+    if (field.validation) {
+      const input = document.getElementById(field.id);
+      if (input) {
+        window.validator.attachToInput(input, field.validation);
+      }
+    }
+  });
+}
+
+// Make functions globally accessible
+window.saveData = async () => {
+  // Trigger form submit programmatically
+  form.dispatchEvent(new Event('submit'));
+};
+
+window.clearForm = clearForm;

@@ -1,49 +1,37 @@
-# Data Entry App# Data Entry App
+# Data Entry App
 
+A professional, customizable offline data entry application for managing church records and other data efficiently. Built with Electron and SQL.js for maximum portability and security.
 
+## 🌟 Features
 
-A customizable offline data entry application for managing church records and other data efficiently.An offline data entry and data collection application for managing data efficiently.
-
-
-
-## Features## Features
-
-
-
-### Core Features- Offline data entry
-
-- **Offline Data Entry**: All data persists locally using SQL.js- Data collection
-
-- **Full CRUD Operations**: Create, Read, Update, Delete records- Data management
-
+### Core Features
+- **Offline Data Entry**: All data persists locally using SQL.js (no server required)
+- **Full CRUD Operations**: Create, Read, Update, Delete records with ease
 - **Excel Export**: Export records to Excel with church record template compatibility
+- **Search & Filter**: Real-time search across all fields
+- **Responsive Design**: Works on desktop and adapts to different screen sizes
 
-- **Search & Filter**: Real-time search across all fields## Installation
+### 🆕 Professional Features (v1.2.0)
+- **✅ Field Validation**: Real-time validation for dates, emails, phone numbers with visual feedback
+- **📥 Data Import**: Bulk import from CSV/Excel files with intelligent field mapping
+- **⌨️ Keyboard Shortcuts**: 
+  - `Ctrl+S` - Save current record
+  - `Ctrl+N` - New record
+  - `Ctrl+F` - Focus search
+  - `Ctrl+E` - Export to Excel
+  - `Ctrl+I` - Import data
+  - `Esc` - Cancel/Clear form
 
-
-
-### Customization Features ✨```bash
-
-- **Editable App Title**: Click the header to rename your applicationnpm install
-
-- **Dynamic Field Management**: ```
-
+### Customization Features ✨
+- **Editable App Title**: Click the header to rename your application
+- **Dynamic Field Management**: 
   - Add custom fields with different types (text, textarea, number, date, email)
-
-  - Delete fields you don't need## Author
-
+  - Delete fields you don't need
   - Update field properties (label, placeholder, required status)
-
-  - Reorder fields (drag handles)Anik Chowdhury
-
 - **Persistent Configuration**: All customizations saved in browser localStorage
+- **Reset to Default**: Restore the original 15 church record fields anytime
 
-- **Reset to Default**: Restore the original 15 church record fields anytime## License
-
-
-
-### Default Church Record FieldsISC
-
+### Default Church Record Fields
 1. Name of Church
 2. Place
 3. Husband Name
