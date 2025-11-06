@@ -25,7 +25,24 @@ class Database {
       this.db = new SQL.Database(fileBuffer);
     } else {
       this.db = new SQL.Database();
-      this.db.run('CREATE TABLE records (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, age INTEGER)');
+      this.db.run(`CREATE TABLE records (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        church_name TEXT,
+        place TEXT,
+        husband_name TEXT,
+        wife_name TEXT,
+        father_name TEXT,
+        mother_name TEXT,
+        relation TEXT,
+        name TEXT,
+        birth TEXT,
+        bapt TEXT,
+        conf TEXT,
+        first_com TEXT,
+        marriage TEXT,
+        death TEXT,
+        note TEXT
+      )`);
       this._persist();
     }
   }
@@ -36,10 +53,18 @@ class Database {
     fs.writeFileSync(DB_FILE, buffer);
   }
 
-  async insertData({ name, email, age }) {
+  async insertData(record) {
     await this.ready;
-    const stmt = this.db.prepare('INSERT INTO records (name, email, age) VALUES (?, ?, ?)');
-    stmt.run([name, email, parseInt(age, 10) || null]);
+    const stmt = this.db.prepare(`INSERT INTO records (
+      church_name, place, husband_name, wife_name, father_name, mother_name, 
+      relation, name, birth, bapt, conf, first_com, marriage, death, note
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+    stmt.run([
+      record.church_name, record.place, record.husband_name, record.wife_name,
+      record.father_name, record.mother_name, record.relation, record.name,
+      record.birth, record.bapt, record.conf, record.first_com,
+      record.marriage, record.death, record.note
+    ]);
     stmt.free();
     this._persist();
     return true;
@@ -54,10 +79,18 @@ class Database {
     return rows;
   }
 
-  async updateData({ id, name, email, age }) {
+  async updateData(record) {
     await this.ready;
-    const stmt = this.db.prepare('UPDATE records SET name=?, email=?, age=? WHERE id=?');
-    stmt.run([name, email, parseInt(age, 10) || null, parseInt(id, 10)]);
+    const stmt = this.db.prepare(`UPDATE records SET 
+      church_name=?, place=?, husband_name=?, wife_name=?, father_name=?, mother_name=?,
+      relation=?, name=?, birth=?, bapt=?, conf=?, first_com=?, marriage=?, death=?, note=?
+      WHERE id=?`);
+    stmt.run([
+      record.church_name, record.place, record.husband_name, record.wife_name,
+      record.father_name, record.mother_name, record.relation, record.name,
+      record.birth, record.bapt, record.conf, record.first_com,
+      record.marriage, record.death, record.note, parseInt(record.id, 10)
+    ]);
     stmt.free();
     this._persist();
     return true;
@@ -74,9 +107,27 @@ class Database {
 
   async exportToExcel() {
     const rows = await this.getAllData();
-    const worksheet = xlsx.utils.json_to_sheet(rows);
+    // Map to template column names
+    const exportData = rows.map(r => ({
+      'Name of Church': r.church_name,
+      'Place': r.place,
+      'Husband Name': r.husband_name,
+      'Wife Name': r.wife_name,
+      'Father Name': r.father_name,
+      'Mother Name': r.mother_name,
+      'Relation': r.relation,
+      'Name': r.name,
+      'Birth': r.birth,
+      'BAPT': r.bapt,
+      'CONF': r.conf,
+      '1 COM': r.first_com,
+      'Marriage': r.marriage,
+      'Death': r.death,
+      'Note': r.note
+    }));
+    const worksheet = xlsx.utils.json_to_sheet(exportData);
     const workbook = xlsx.utils.book_new();
-    xlsx.utils.book_append_sheet(workbook, worksheet, 'Data');
+    xlsx.utils.book_append_sheet(workbook, worksheet, 'Church Records');
     xlsx.writeFile(workbook, 'records.xlsx');
     return 'records.xlsx';
   }

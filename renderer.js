@@ -1,98 +1,21 @@
-// Use APIs exposed by preload (contextBridge)
-
-const form = document.getElementById('dataForm');
-const addBtn = document.getElementById('addBtn');
-const updateBtn = document.getElementById('updateBtn');
-const tableBody = document.querySelector('#dataTable tbody');
-const exportBtn = document.getElementById('exportBtn');
-const searchInput = document.getElementById('search');
-
+// Church Records Renderer
+const form = document.getElementById("dataForm");
+const addBtn = document.getElementById("addBtn");
+const updateBtn = document.getElementById("updateBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const tableBody = document.querySelector("#dataTable tbody");
+const exportBtn = document.getElementById("exportBtn");
+const searchInput = document.getElementById("search");
 let allRecords = [];
-
-// Load data
-async function loadData() {
-  allRecords = await window.api.getData();
-  renderTable(allRecords);
-}
-
-// Render table
-function renderTable(records) {
-  tableBody.innerHTML = '';
-  records.forEach((row) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${row.id}</td>
-      <td>${row.name}</td>
-      <td>${row.email}</td>
-      <td>${row.age}</td>
-      <td class="actions">
-        <button onclick="editRecord(${row.id})">✏️ Edit</button>
-        <button onclick="deleteRecord(${row.id})">🗑️ Delete</button>
-      </td>`;
-    tableBody.appendChild(tr);
-  });
-}
-
-// Add record
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const record = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    age: document.getElementById('age').value
-  };
-  allRecords = await window.api.saveData(record);
-  renderTable(allRecords);
-  form.reset();
-});
-
-// Edit record
-window.editRecord = (id) => {
-  const record = allRecords.find((r) => r.id === id);
-  document.getElementById('recordId').value = record.id;
-  document.getElementById('name').value = record.name;
-  document.getElementById('email').value = record.email;
-  document.getElementById('age').value = record.age;
-  addBtn.style.display = 'none';
-  updateBtn.style.display = 'inline';
-};
-
-// Update record
-updateBtn.addEventListener('click', async () => {
-  const record = {
-    id: document.getElementById('recordId').value,
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    age: document.getElementById('age').value
-  };
-  allRecords = await window.api.updateData(record);
-  renderTable(allRecords);
-  form.reset();
-  addBtn.style.display = 'inline';
-  updateBtn.style.display = 'none';
-});
-
-// Delete record
-window.deleteRecord = async (id) => {
-  if (confirm('Are you sure you want to delete this record?')) {
-  allRecords = await window.api.deleteData(id);
-    renderTable(allRecords);
-  }
-};
-
-// Search filter
-searchInput.addEventListener('input', () => {
-  const q = searchInput.value.toLowerCase();
-  const filtered = allRecords.filter(
-    (r) => r.name.toLowerCase().includes(q) || r.email.toLowerCase().includes(q)
-  );
-  renderTable(filtered);
-});
-
-// Export manually
-exportBtn.addEventListener('click', async () => {
-  await window.api.exportExcel();
-  alert('Excel file automatically updated: records.xlsx');
-});
-
+async function loadData() { allRecords = await window.api.getData(); renderTable(allRecords); }
+function renderTable(records) { tableBody.innerHTML = ""; if (records.length === 0) { tableBody.innerHTML = "<tr><td colspan=\"7\" style=\"text-align:center\">No records found</td></tr>"; return; } records.forEach(row => { const tr = document.createElement("tr"); tr.innerHTML = `<td>${row.id}</td><td>${row.church_name||""}</td><td>${row.place||""}</td><td>${row.name||""}</td><td>${row.birth||""}</td><td>${row.relation||""}</td><td class="actions"><button onclick="editRecord(${row.id})">??</button><button onclick="deleteRecord(${row.id})">???</button></td>`; tableBody.appendChild(tr); }); }
+function getFormData() { return { id: document.getElementById("recordId").value, church_name: document.getElementById("church_name").value, place: document.getElementById("place").value, husband_name: document.getElementById("husband_name").value, wife_name: document.getElementById("wife_name").value, father_name: document.getElementById("father_name").value, mother_name: document.getElementById("mother_name").value, relation: document.getElementById("relation").value, name: document.getElementById("name").value, birth: document.getElementById("birth").value, bapt: document.getElementById("bapt").value, conf: document.getElementById("conf").value, first_com: document.getElementById("first_com").value, marriage: document.getElementById("marriage").value, death: document.getElementById("death").value, note: document.getElementById("note").value }; }
+function populateForm(r) { document.getElementById("recordId").value = r.id; document.getElementById("church_name").value = r.church_name||""; document.getElementById("place").value = r.place||""; document.getElementById("husband_name").value = r.husband_name||""; document.getElementById("wife_name").value = r.wife_name||""; document.getElementById("father_name").value = r.father_name||""; document.getElementById("mother_name").value = r.mother_name||""; document.getElementById("relation").value = r.relation||""; document.getElementById("name").value = r.name||""; document.getElementById("birth").value = r.birth||""; document.getElementById("bapt").value = r.bapt||""; document.getElementById("conf").value = r.conf||""; document.getElementById("first_com").value = r.first_com||""; document.getElementById("marriage").value = r.marriage||""; document.getElementById("death").value = r.death||""; document.getElementById("note").value = r.note||""; }
+form.addEventListener("submit", async e => { e.preventDefault(); const rec = getFormData(); delete rec.id; allRecords = await window.api.saveData(rec); renderTable(allRecords); form.reset(); });
+window.editRecord = id => { const r = allRecords.find(x => x.id === id); if(!r) return; populateForm(r); addBtn.style.display = "none"; updateBtn.style.display = "inline"; cancelBtn.style.display = "inline"; form.scrollIntoView({behavior:"smooth"}); };
+updateBtn.addEventListener("click", async () => { const rec = getFormData(); if(!rec.id) return; allRecords = await window.api.updateData(rec); renderTable(allRecords); form.reset(); addBtn.style.display = "inline"; updateBtn.style.display = "none"; cancelBtn.style.display = "none"; });
+cancelBtn.addEventListener("click", () => { form.reset(); addBtn.style.display = "inline"; updateBtn.style.display = "none"; cancelBtn.style.display = "none"; });
+window.deleteRecord = async id => { if (!confirm("Delete this record?")) return; allRecords = await window.api.deleteData(id); renderTable(allRecords); };
+searchInput.addEventListener("input", () => { const q = searchInput.value.toLowerCase(); const f = allRecords.filter(r => (r.name&&r.name.toLowerCase().includes(q)) || (r.church_name&&r.church_name.toLowerCase().includes(q)) || (r.place&&r.place.toLowerCase().includes(q))); renderTable(f); });
+exportBtn.addEventListener("click", async () => { await window.api.exportExcel(); alert("Exported to records.xlsx"); });
 loadData();

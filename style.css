@@ -46,14 +46,17 @@ body {
 .form { display: grid; gap: 12px; grid-template-columns: repeat(12, 1fr); }
 .form-row { display: contents; }
 .form-row > label { grid-column: span 2; align-self: center; color: var(--muted); }
-.form-row > input {
+.form-row > input, .form-row > textarea {
   grid-column: span 10;
   background: #0b1220;
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px 12px;
+  font-family: inherit;
 }
+.form-row.full-width > label { grid-column: span 12; }
+.form-row.full-width > textarea { grid-column: span 12; resize: vertical; }
 .form .actions { grid-column: 1 / -1; display: flex; gap: 8px; margin-top: 6px; }
 
 .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
