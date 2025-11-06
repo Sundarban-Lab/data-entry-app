@@ -54,9 +54,10 @@ body {
   border-radius: 8px;
   padding: 10px 12px;
   font-family: inherit;
+  width: 100%;
 }
 .form-row.full-width > label { grid-column: span 12; }
-.form-row.full-width > textarea { grid-column: span 12; resize: vertical; }
+.form-row.full-width > textarea { grid-column: span 12; resize: vertical; width: 100%; }
 .form .actions { grid-column: 1 / -1; display: flex; gap: 8px; margin-top: 6px; }
 
 .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }

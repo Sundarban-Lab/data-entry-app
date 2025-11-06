@@ -16,13 +16,6 @@
             text-align: center;
         }
 
-        .form-row input,
-        .form-row textarea,
-        .form-row select {
-            width: 100% !important;
-            box-sizing: border-box;
-        }
-
         .editable-header {
             cursor: pointer;
             position: relative;
@@ -278,9 +271,12 @@
         // Handle external links in Electron
         document.addEventListener('DOMContentLoaded', () => {
             document.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A' && e.target.href && e.target.href.startsWith('http')) {
+                const link = e.target.closest('a');
+                if (link && link.href && link.href.startsWith('http')) {
                     e.preventDefault();
-                    window.api.openExternal(e.target.href);
+                    if (window.api && window.api.openExternal) {
+                        window.api.openExternal(link.href);
+                    }
                 }
             });
         });
