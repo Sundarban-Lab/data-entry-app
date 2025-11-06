@@ -274,8 +274,12 @@
                 const link = e.target.closest('a');
                 if (link && link.href && link.href.startsWith('http')) {
                     e.preventDefault();
-                    if (window.api && window.api.openExternal) {
-                        window.api.openExternal(link.href);
+                    if (window.api && typeof window.api.openExternal === 'function') {
+                        window.api.openExternal(link.href).catch(err => {
+                            console.error('Failed to open external link:', err);
+                        });
+                    } else {
+                        console.warn('window.api.openExternal not available');
                     }
                 }
             });
