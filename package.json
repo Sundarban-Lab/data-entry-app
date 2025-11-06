@@ -11,7 +11,7 @@
   },
   "build": {
     "appId": "com.sundarbanlab.dataentryapp",
-    "productName": "Data Entry App",
+    "productName": "Data Entry Manager",
     "asar": false,
     "files": [
       "**/*",

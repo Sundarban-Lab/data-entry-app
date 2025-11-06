@@ -149,7 +149,7 @@ VIEW
   showAbout() {
     const about = `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    DATA ENTRY APP
+    DATA ENTRY MANAGER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Version: 1.2.0
