@@ -1,0 +1,39 @@
+name: Build Windows Installer
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - copilot/**
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      ELECTRON_BUILDER_DISABLE_AUTO_UPDATE: "true"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies (clean)
+        run: |
+          npm ci
+
+      - name: Build Windows installer
+        run: |
+          npm run build:win
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: |
+            release3/**
+            !release3/win-unpacked/**
