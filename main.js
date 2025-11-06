@@ -21,8 +21,8 @@ function createWindow() {
 
   win.loadFile('index.html');
   
-  // Open DevTools for debugging
-  win.webContents.openDevTools();
+  // DevTools removed for production builds
+  // Uncomment for debugging: win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
