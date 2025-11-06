@@ -42,7 +42,8 @@ class Database {
   async insertData({ name, email, age }) {
     await this.ready;
     const stmt = this.db.prepare('INSERT INTO records (name, email, age) VALUES (?, ?, ?)');
-    stmt.run([name, email, parseInt(age, 10) || null]);
+    const ageValue = age !== undefined && age !== '' ? parseInt(age, 10) : null;
+    stmt.run([name, email, isNaN(ageValue) ? null : ageValue]);
     stmt.free();
     this._persist();
     return true;
@@ -59,8 +60,13 @@ class Database {
 
   async updateData({ id, name, email, age }) {
     await this.ready;
+    const idValue = parseInt(id, 10);
+    if (isNaN(idValue)) {
+      throw new Error('Invalid ID provided for update');
+    }
+    const ageValue = age !== undefined && age !== '' ? parseInt(age, 10) : null;
     const stmt = this.db.prepare('UPDATE records SET name=?, email=?, age=? WHERE id=?');
-    stmt.run([name, email, parseInt(age, 10) || null, parseInt(id, 10)]);
+    stmt.run([name, email, isNaN(ageValue) ? null : ageValue, idValue]);
     stmt.free();
     this._persist();
     return true;
@@ -68,8 +74,12 @@ class Database {
 
   async deleteData(id) {
     await this.ready;
+    const idValue = parseInt(id, 10);
+    if (isNaN(idValue)) {
+      throw new Error('Invalid ID provided for deletion');
+    }
     const stmt = this.db.prepare('DELETE FROM records WHERE id=?');
-    stmt.run([parseInt(id, 10)]);
+    stmt.run([idValue]);
     stmt.free();
     this._persist();
     return true;
