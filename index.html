@@ -270,16 +270,23 @@
     <script>
         // Handle external links in Electron
         document.addEventListener('DOMContentLoaded', () => {
-            document.addEventListener('click', (e) => {
+            console.log('Link handler loaded, window.api:', window.api);
+            document.addEventListener('click', async (e) => {
                 const link = e.target.closest('a');
-                if (link && link.href && link.href.startsWith('http')) {
+                if (!link) return;
+                if (link.target === '_blank' && link.href.startsWith('http')) {
                     e.preventDefault();
                     if (window.api && typeof window.api.openExternal === 'function') {
-                        window.api.openExternal(link.href).catch(err => {
-                            console.error('Failed to open external link:', err);
-                        });
+                        try {
+                            const result = await window.api.openExternal(link.href);
+                            if (!result?.ok) {
+                                console.error('Failed to open external link:', result?.error);
+                            }
+                        } catch (err) {
+                            console.error('Error opening external link:', err);
+                        }
                     } else {
-                        console.warn('window.api.openExternal not available');
+                        console.warn('openExternal not available');
                     }
                 }
             });
