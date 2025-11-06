@@ -1,366 +1,44 @@
-<!doctype html>
-<!doctype html>
-
+﻿<!doctype html>
 <html lang="en">
-<html lang="en">
-
 <head>
-
-    <meta charset="utf-8" />
-
-    <head>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charset="utf-8" />
-
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <meta http-equiv="Content-Security-Policy"
-            content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-        <title>Church Records Data Entry</title>
-        <meta http-equiv="Content-Security-Policy" <link rel="stylesheet" href="./style.css" /> content="default-src
-        'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';" />
-
-    </head>
-    <title>Data Entry App</title>
-
-<body>
-    <link rel="stylesheet" href="./style.css" />
-
-    <header class="app-header">
-        </head>
-
-        <h1>Church Records Data Entry</h1>
-
-    </header>
-
-    <body>
-
-        <header class="app-header">
-
-            <main class="container">
-                <h1>Data Entry App</h1>
-
-                <section class="panel">
-        </header>
-
-        <h2>New / Edit Church Record</h2>
-
-        <form id="dataForm" class="form" autocomplete="off">
-            <main class="container">
-
-                <input type="hidden" id="recordId" />
-                <section class="panel">
-
-                    <h2>New / Edit Record</h2>
-
-                    <div class="form-row">
-                        <form id="dataForm" class="form" autocomplete="off">
-
-                            <label for="church_name">Name of Church *</label> <input type="hidden" id="recordId" />
-
-                            <input id="church_name" name="church_name" type="text" placeholder="Church name" required />
-
-                    </div>
-                    <div class="form-row">
-
-                        <label for="name">Name</label>
-
-                        <div class="form-row"> <input id="name" name="name" type="text" placeholder="Enter full name"
-                                required />
-
-                            <label for="place">Place *</label>
-                        </div>
-
-                        <input id="place" name="place" type="text" placeholder="Location" required />
-
-                    </div>
-                    <div class="form-row">
-
-                        <label for="email">Email</label>
-
-                        <div class="form-row"> <input id="email" name="email" type="email"
-                                placeholder="name@example.com" required />
-
-                            <label for="husband_name">Husband Name</label>
-                        </div>
-
-                        <input id="husband_name" name="husband_name" type="text" placeholder="Husband's full name" />
-
-                    </div>
-                    <div class="form-row">
-
-                        <label for="age">Age</label>
-
-                        <div class="form-row"> <input id="age" name="age" type="number" inputmode="numeric" min="0"
-                                max="120" <label for="wife_name">Wife Name</label> placeholder="e.g., 30" />
-
-                            <input id="wife_name" name="wife_name" type="text" placeholder="Wife's full name" />
-                        </div>
-
-                    </div>
-
-                    <div class="actions">
-
-                        <div class="form-row"> <button id="addBtn" type="submit" class="btn primary">Add</button>
-
-                            <label for="father_name">Father Name</label> <button id="updateBtn" type="button"
-                                class="btn" style="display:none">Update</button>
-
-                            <input id="father_name" name="father_name" type="text" placeholder="Father's full name" />
-                        </div>
-
-                    </div>
-        </form>
-
-        </section>
-
-        <div class="form-row">
-
-            <label for="mother_name">Mother Name</label>
-            <section class="panel">
-
-                <input id="mother_name" name="mother_name" type="text" placeholder="Mother's full name" />
-                <div class="toolbar">
-
-                </div>
-                <div class="search">
-
-                    <input id="search" type="search" placeholder="Search by name or email" aria-label="Search" />
-
-                    <div class="form-row"> </div>
-
-                    <label for="relation">Relation</label>
-                    <div class="spacer"></div>
-
-                    <input id="relation" name="relation" type="text" placeholder="Relationship" /> <button
-                        id="exportBtn" class="btn">Export to Excel</button>
-
-                </div>
-        </div>
-
-
-
-        <div class="form-row">
-            <div class="table-wrap">
-
-                <label for="name">Name *</label>
-                <table id="dataTable" class="table" role="grid">
-
-                    <input id="name" name="name" type="text" placeholder="Individual's name" required />
-                    <thead>
-
-            </div>
-            <tr>
-
-                <th style="width:80px">ID</th>
-
-                <div class="form-row">
-                    <th>Name</th>
-
-                    <label for="birth">Birth</label>
-                    <th>Email</th>
-
-                    <input id="birth" name="birth" type="text" placeholder="Birth date (e.g., 1990-05-15)" />
-                    <th style="width:100px">Age</th>
-
-                </div>
-                <th style="width:140px">Actions</th>
-
-            </tr>
-
-            <div class="form-row">
-                </thead>
-
-                <label for="bapt">BAPT</label>
-                <tbody>
-
-                    <input id="bapt" name="bapt" type="text" placeholder="Baptism date" />
-                    <!-- Rows rendered by renderer.js -->
-
-            </div>
-            </tbody>
-
-            </table>
-
-            <div class="form-row"> </div>
-
-            <label for="conf">CONF</label> </section>
-
-            <input id="conf" name="conf" type="text" placeholder="Confirmation date" /> </main>
-
-        </div>
-
-        <footer class="app-footer">
-
-            <div class="form-row"> <small>Data persists locally in data.db; export updates records.xlsx
-                    automatically.</small>
-
-                <label for="first_com">1 COM</label>
-        </footer>
-
-        <input id="first_com" name="first_com" type="text" placeholder="First Communion date" />
-
-        </div>
-        <script defer src="./renderer.js"></script>
-
-    </body>
-
-    <div class="form-row">
-
-        <label for="marriage">Marriage</label>
-
-</html>
-
-<input id="marriage" name="marriage" type="text" placeholder="Marriage date" />
-<!DOCTYPE html>
-
-</div>
-<html lang="en">
-
-
-
-<div class="form-row">
-
-    <head>
-
-        <label for="death">Death</label>
-        <meta charset="UTF-8">
-
-        <input id="death" name="death" type="text" placeholder="Death date" />
-        <title>Data Entry Manager</title>
-
-</div>
-<style>
-    body {
-
-        <div class="form-row full-width">font-family: Arial;
-
-        <label for="note">Note</label>margin: 20px;
-
-        <textarea id="note" name="note" rows="3" placeholder="Additional notes"></textarea>background: #fafafa;
-
-        </div>
-    }
-
-
-
-    <div class="actions">h2 {
-
-        <button id="addBtn" type="submit" class="btn primary">Add Record</button>color: #333;
-
-        <button id="updateBtn" type="button" class="btn" style="display:none">Update Record</button>
-    }
-
-    <button id="cancelBtn" type="button" class="btn" style="display:none">Cancel</button></div>input,
-
-    </form>button {
-
-        </section>margin: 5px;
-
-        padding: 8px;
-
-        <section class="panel">
-    }
-
-    <div class="toolbar"><div class="search">table {
-
-        <input id="search" type="search" placeholder="Search by name, church, or place" aria-label="Search" />width: 100%;
-
-        </div>border-collapse: collapse;
-
-        <div class="spacer"></div>margin-top: 15px;
-
-        <button id="exportBtn" class="btn">📊 Export to Excel</button>
-    }
-
-    </div>th,
-
-    <div class="table-wrap">td {
-
-        <table id="dataTable" class="table" role="grid">border: 1px solid #ccc;
-
-        <thead>padding: 8px;
-
-        <tr>text-align: left;
-
-        <th style="width:60px">ID</th>
-    }
-
-    <th>Church</th><th>Place</th>tr:nth-child(even) {
-
-        <th>Name</th>background: #f2f2f2;
-
-        <th>Birth</th>
-    }
-
-    <th>Relation</th><th style="width:140px">Actions</th>#search {
-
-        </tr>margin-top: 10px;
-
-        </thead>width: 300px;
-
-        <tbody>padding: 6px;
-
-        < !-- Rows rendered by renderer.js -->
-    }
-
-    </tbody></table>.actions button {
-
-        </div>margin-right: 5px;
-
-        </section>
-    }
-
-    </main>
-</style>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Church Records Data Entry</title>
+<link rel="stylesheet" href="./style.css">
 </head>
-
-<footer class="app-footer">
-
-    <small>Church records persist locally in data.db; export updates records.xlsx automatically.</small>
-
-    <body>
-
-</footer>
-<h2>Data Entry Manager</h2>
-
-
-
-<script defer src="./renderer.js"></script>
-<form id="dataForm">
-
-    </body> <input type="hidden" id="recordId">
-
-</html> <input type="text" id="name" placeholder="Name" required>
-
-<input type="email" id="email" placeholder="Email" required>
-<input type="number" id="age" placeholder="Age">
-<button type="submit" id="addBtn">Add</button>
-<button type="button" id="updateBtn" style="display:none;">Update</button>
+<body>
+<header class="app-header"><h1>Church Records Data Entry</h1></header>
+<main class="container">
+<section class="panel"><h2>New / Edit Church Record</h2>
+<form id="dataForm" class="form" autocomplete="off">
+<input type="hidden" id="recordId">
+<div class="form-row"><label for="church_name">Name of Church *</label><input id="church_name" type="text" placeholder="Church name" required></div>
+<div class="form-row"><label for="place">Place *</label><input id="place" type="text" placeholder="Location" required></div>
+<div class="form-row"><label for="husband_name">Husband Name</label><input id="husband_name" type="text" placeholder="Husband's full name"></div>
+<div class="form-row"><label for="wife_name">Wife Name</label><input id="wife_name" type="text" placeholder="Wife's full name"></div>
+<div class="form-row"><label for="father_name">Father Name</label><input id="father_name" type="text" placeholder="Father's full name"></div>
+<div class="form-row"><label for="mother_name">Mother Name</label><input id="mother_name" type="text" placeholder="Mother's full name"></div>
+<div class="form-row"><label for="relation">Relation</label><input id="relation" type="text" placeholder="Relationship"></div>
+<div class="form-row"><label for="name">Name *</label><input id="name" type="text" placeholder="Individual's name" required></div>
+<div class="form-row"><label for="birth">Birth</label><input id="birth" type="text" placeholder="Birth date"></div>
+<div class="form-row"><label for="bapt">BAPT</label><input id="bapt" type="text" placeholder="Baptism date"></div>
+<div class="form-row"><label for="conf">CONF</label><input id="conf" type="text" placeholder="Confirmation date"></div>
+<div class="form-row"><label for="first_com">1 COM</label><input id="first_com" type="text" placeholder="First Communion"></div>
+<div class="form-row"><label for="marriage">Marriage</label><input id="marriage" type="text" placeholder="Marriage date"></div>
+<div class="form-row"><label for="death">Death</label><input id="death" type="text" placeholder="Death date"></div>
+<div class="form-row full-width"><label for="note">Note</label><textarea id="note" rows="3" placeholder="Additional notes"></textarea></div>
+<div class="actions"><button id="addBtn" type="submit" class="btn primary">Add Record</button><button id="updateBtn" type="button" class="btn" style="display:none">Update</button><button id="cancelBtn" type="button" class="btn" style="display:none">Cancel</button></div>
 </form>
-
-<input type="text" id="search" placeholder="Search by name or email...">
-<button id="exportBtn">Export to Excel</button>
-
-<table id="dataTable">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Age</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
-
-<script src="renderer.js"></script>
+</section>
+<section class="panel">
+<div class="toolbar"><div class="search"><input id="search" type="search" placeholder="Search by name, church, or place"></div><div class="spacer"></div><button id="exportBtn" class="btn">Export to Excel</button></div>
+<div class="table-wrap"><table id="dataTable" class="table">
+<thead><tr><th style="width:60px">ID</th><th>Church</th><th>Place</th><th>Name</th><th>Birth</th><th>Relation</th><th style="width:140px">Actions</th></tr></thead>
+<tbody></tbody>
+</table></div>
+</section>
+</main>
+<footer class="app-footer"><small>Church records persist locally in data.db</small></footer>
+<script defer src="./renderer.js"></script>
 </body>
-
 </html>
