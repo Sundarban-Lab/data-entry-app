@@ -75,6 +75,19 @@ function createMenu() {
           click: () => mainWindow.webContents.send('menu-action', 'export-data')
         },
         { type: 'separator' },
+        {
+          label: 'Google Sheets Setup',
+          click: () => mainWindow.webContents.send('menu-action', 'google-sheets-setup')
+        },
+        {
+          label: 'Sync to Google Sheets',
+          click: () => mainWindow.webContents.send('menu-action', 'sync-to-google-sheets')
+        },
+        {
+          label: 'Import from Google Sheets',
+          click: () => mainWindow.webContents.send('menu-action', 'import-from-google-sheets')
+        },
+        { type: 'separator' },
         isMac ? { role: 'close' } : { role: 'quit' }
       ]
     },

@@ -53,6 +53,15 @@ class MenuHandler {
       case 'show-about':
         this.showAbout();
         break;
+      case 'google-sheets-setup':
+        this.googleSheetsSetup();
+        break;
+      case 'sync-to-google-sheets':
+        this.syncToGoogleSheets();
+        break;
+      case 'import-from-google-sheets':
+        this.importFromGoogleSheets();
+        break;
       default:
         console.warn('Unknown menu action:', action);
     }
@@ -162,6 +171,7 @@ FEATURES
 ✓ Data Import/Export
 ✓ Field Validation
 ✓ Keyboard Shortcuts
+✓ Google Sheets Sync
 
 Built with Electron + SQL.js
 Licensed under MIT
@@ -171,6 +181,24 @@ GitHub: github.com/Sundarban-Lab/data-entry-app
     `.trim();
     
     alert(about);
+  }
+
+  googleSheetsSetup() {
+    if (window.googleSheetsSync) {
+      window.googleSheetsSync.showConfigDialog();
+    }
+  }
+
+  syncToGoogleSheets() {
+    if (window.googleSheetsSync) {
+      window.googleSheetsSync.syncToGoogleSheets();
+    }
+  }
+
+  importFromGoogleSheets() {
+    if (window.googleSheetsSync) {
+      window.googleSheetsSync.importFromGoogleSheets();
+    }
   }
 
   async displayStatistics() {

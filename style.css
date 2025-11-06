@@ -244,3 +244,115 @@ body {
 .help-icon:hover {
   opacity: 1;
 }
+
+/* Google Sheets Modal */
+.google-sheets-modal {
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.gs-info {
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.gs-info p {
+  margin: 8px 0;
+}
+
+.gs-info ul {
+  margin: 8px 0;
+  padding-left: 24px;
+}
+
+.gs-setup-steps {
+  background: #0b1220;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.gs-setup-steps h3 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.gs-setup-steps ol {
+  margin: 12px 0;
+  padding-left: 24px;
+}
+
+.gs-setup-steps li {
+  margin: 12px 0;
+}
+
+.gs-setup-steps ul {
+  margin: 8px 0;
+  padding-left: 20px;
+  list-style-type: circle;
+}
+
+.gs-setup-steps a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.gs-setup-steps a:hover {
+  text-decoration: underline;
+}
+
+.gs-form {
+  margin: 20px 0;
+}
+
+.gs-form .form-row {
+  margin-bottom: 16px;
+}
+
+.gs-form small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.gs-status {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  display: none;
+}
+
+.gs-status.gs-status-success {
+  display: block;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid #22c55e;
+  color: #22c55e;
+}
+
+.gs-status.gs-status-error {
+  display: block;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.gs-status.gs-status-warning {
+  display: block;
+  background: rgba(251, 146, 60, 0.1);
+  border: 1px solid #fb923c;
+  color: #fb923c;
+}
+
+.gs-status.gs-status-info {
+  display: block;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
