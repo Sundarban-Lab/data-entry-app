@@ -14,7 +14,9 @@ A professional, customizable offline data entry application for managing church 
 ### 🆕 Professional Features (v1.2.0)
 - **✅ Field Validation**: Real-time validation for dates, emails, phone numbers with visual feedback
 - **📥 Data Import**: Bulk import from CSV/Excel files with intelligent field mapping
-- **⌨️ Keyboard Shortcuts**: 
+- **🎯 Application Menu Bar**: Professional menu with File, Edit, View, Records, Window, Help
+- **📊 Statistics Dashboard**: View total records, date ranges, and database insights
+- **⌨️ Keyboard Shortcuts**:
   - `Ctrl+S` - Save current record
   - `Ctrl+N` - New record
   - `Ctrl+F` - Focus search
@@ -53,6 +55,12 @@ A professional, customizable offline data entry application for managing church 
 ```bash
 npm install
 ```
+
+## 📖 Documentation
+
+- **[Complete User Guide](USER_GUIDE.md)** - Detailed feature documentation
+- **[Testing Guide](TESTING.md)** - QA testing procedures
+- **[Release Notes v1.2.0](RELEASE_NOTES_v1.2.0.md)** - What's new
 
 ## Usage
 
