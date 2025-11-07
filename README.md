@@ -1,6 +1,21 @@
 # Data Entry App
 
+![Release](https://img.shields.io/github/v/release/Sundarban-Lab/data-entry-app?display_name=tag)
+![Downloads](https://img.shields.io/github/downloads/Sundarban-Lab/data-entry-app/total)
+![License](https://img.shields.io/github/license/Sundarban-Lab/data-entry-app)
+
 A professional, customizable offline data entry application for managing church records and other data efficiently. Built with Electron and SQL.js for maximum portability and security.
+
+## ⬇️ Download
+
+- Windows (x64): Download the latest ZIP from the [Releases page](https://github.com/Sundarban-Lab/data-entry-app/releases/latest), extract it, then run `Data Entry Manager.exe`.
+
+## ⚡ Quick Start
+
+1. Download the ZIP from Releases
+2. Extract the folder
+3. Double-click `Data Entry Manager.exe`
+4. Start entering records (Ctrl+N to add, Ctrl+S to save)
 
 ## 🌟 Features
 
@@ -25,8 +40,9 @@ A professional, customizable offline data entry application for managing church 
   - `Esc` - Cancel/Clear form
 
 ### Customization Features ✨
+
 - **Editable App Title**: Click the header to rename your application
-- **Dynamic Field Management**: 
+- **Dynamic Field Management**:
   - Add custom fields with different types (text, textarea, number, date, email)
   - Delete fields you don't need
   - Update field properties (label, placeholder, required status)
@@ -34,6 +50,7 @@ A professional, customizable offline data entry application for managing church 
 - **Reset to Default**: Restore the original 15 church record fields anytime
 
 ### Default Church Record Fields
+
 1. Name of Church
 2. Place
 3. Husband Name
@@ -65,34 +82,46 @@ npm install
 ## Usage
 
 ### Run the Application
+
 ```bash
 npm start
 ```
 
 ### Build Windows package (ZIP)
+
 ```bash
 npm run dist
 ```
+
 The packaged app will be created in the `dist/` directory (ZIP archive). You can extract it and run `Data Entry Manager.exe`.
 
 ### Customize Your App
 
-1. **Change the App Title**:
-  - Click on the app title in the header ("Data Entry Manager")
-   - Type your custom name
-   - Press Enter to save
+#### Change the App Title
 
-2. **Manage Fields**:
-   - Click the "⚙️ Customize Fields" button
-   - **Add Field**: Click "+ Add New Field"
-   - **Edit Field**: Modify label, ID, type, placeholder, or required status
-   - **Delete Field**: Click the red "Delete" button
-   - Click "Save Changes" to apply
+- Click on the app title in the header ("Data Entry Manager")
+- Type your custom name
+- Press Enter to save
 
-3. **Reset to Default**:
-   - Open field settings
-   - Click "Reset to Default"
-   - Confirm to restore original 15 church fields
+#### Manage Fields
+
+- Click the "⚙️ Customize Fields" button
+- **Add Field**: Click "+ Add New Field"
+- **Edit Field**: Modify label, ID, type, placeholder, or required status
+- **Delete Field**: Click the red "Delete" button
+- Click "Save Changes" to apply
+
+#### Reset to Default
+
+- Open field settings
+- Click "Reset to Default"
+- Confirm to restore original 15 church fields
+
+## 🖥️ System Requirements
+
+- Windows 10 or later (x64)
+- ~250 MB free disk space
+- No internet required for core features (optional for Google Sheets sync)
 
 ## Technology Stack
 
@@ -112,7 +141,8 @@ The packaged app will be created in the `dist/` directory (ZIP archive). You can
 ## Development
 
 ### Project Structure
-```
+
+```text
 data-entry-app/
 ├── main.js              # Electron main process
 ├── preload.js           # Secure IPC bridge
@@ -128,6 +158,7 @@ data-entry-app/
 ```
 
 ### Security
+
 - Context isolation enabled
 - Sandbox mode enabled
 - No node integration in renderer
@@ -136,6 +167,7 @@ data-entry-app/
 ## CI/CD
 
 GitHub Actions workflow automatically builds Windows installer on push to:
+
 - `main` branch
 - `clean-build` branch
 - Any `copilot/*` branches
