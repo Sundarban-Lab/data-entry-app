@@ -17,6 +17,14 @@ window.addEventListener('DOMContentLoaded', () => {
       setupValidation();
     }
   }, 100);
+
+  // Handle external links - open in default browser
+  document.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A' && e.target.href && e.target.target === '_blank') {
+      e.preventDefault();
+      window.api.openExternal(e.target.href);
+    }
+  });
 });
 
 async function loadData() {
