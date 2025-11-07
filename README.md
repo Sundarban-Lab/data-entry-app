@@ -69,16 +69,16 @@ npm install
 npm start
 ```
 
-### Build Windows Installer
+### Build Windows package (ZIP)
 ```bash
-npm run build:win
+npm run dist
 ```
-The installer will be created in the `release3/` directory.
+The packaged app will be created in the `dist/` directory (ZIP archive). You can extract it and run `Data Entry Manager.exe`.
 
 ### Customize Your App
 
 1. **Change the App Title**:
-   - Click on the header text "Church Records Data Entry"
+  - Click on the app title in the header ("Data Entry Manager")
    - Type your custom name
    - Press Enter to save
 
@@ -148,4 +148,4 @@ Anik Chowdhury
 
 ## License
 
-ISC
+MIT
